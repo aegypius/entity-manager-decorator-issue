@@ -1,9 +1,0 @@
-{
-    "$schema": "https://docs.dagger.io/reference/dagger.schema.json",
-    "name": "php-project",
-    "engineVersion": "v0.18.4",
-    "sdk": {
-        "source": "php"
-    },
-    "source": ".dagger"
-}

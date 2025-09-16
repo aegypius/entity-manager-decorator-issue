@@ -9,34 +9,83 @@ jobs:
         name: Coding Standards
         runs-on: ubuntu-latest
 
+        env:
+            fail-fast: true
+
         permissions:
             contents: read
 
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-
-            - name: Check for coding-standards
-              uses: dagger/dagger-for-github@8.0.0
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
               with:
-                  version: "latest"
-                  verb: call
-                  args: check-coding-standards
+                php-version: 8.4
+                extensions: intl, bcmath, curl, openssl, mbstring, sqlite3
+                ini-values: memory_limit=-1
+                tools: pecl, composer
+                coverage: none
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache dependencies
+              uses: actions/cache@v4
+              with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install dependencies
+              run: composer install --prefer-dist
+
+            - name: Warmup cache
+              run: bin/console cache:warmup --env=test
+
+            - name: Check coding style
+              run: vendor/bin/ecs
+
+            - name: Check static analysis
+              run: vendor/bin/phpstan
 
     test:
         name: Tests
         runs-on: ubuntu-latest
 
+        env:
+            fail-fast: true
+
         permissions:
             contents: read
 
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-
-            - name: Check for coding-standards
-              uses: dagger/dagger-for-github@8.0.0
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
               with:
-                  version: "latest"
-                  verb: call
-                  args: test
+                php-version: 8.4
+                extensions: intl, bcmath, curl, openssl, mbstring, sqlite3
+                ini-values: memory_limit=-1
+                tools: pecl, composer
+                coverage: none
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            - name: Cache dependencies
+              uses: actions/cache@v4
+              with:
+                path: ${{ steps.composer-cache.outputs.dir }}
+                key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install dependencies
+              run: composer install --prefer-dist
+
+            - name: Update database schema
+              run: bin/console doctrine:schema:update --force --env=test
+
+            - name: Run PHPUnit
+              run: vendor/bin/phpunit
