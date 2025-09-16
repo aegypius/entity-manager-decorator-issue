@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-sqlite3": "*",
@@ -28,12 +28,12 @@
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "3.4.0",
         "doctrine/persistence": "^3.4",
-        "symfony/console": "7.2.*",
-        "symfony/dotenv": "7.2.*",
+        "symfony/console": "7.3.*",
+        "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2.8.2",
-        "symfony/framework-bundle": "7.2.*",
-        "symfony/runtime": "7.2.*",
-        "symfony/yaml": "7.2.*"
+        "symfony/framework-bundle": "7.3.*",
+        "symfony/runtime": "7.3.*",
+        "symfony/yaml": "7.3.*"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -47,10 +47,10 @@
     },
     "require-dev": {
         "ext-dom": "*",
-        "dama/doctrine-test-bundle": "^8.3",
+        "dama/doctrine-test-bundle": "^8.3.1",
         "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan": "^2.1.25",
-        "phpstan/phpstan-symfony": "^2.0",
+        "phpstan/phpstan": "^2.1.26",
+        "phpstan/phpstan-symfony": "^2.0.8",
         "phpunit/phpunit": "^12.3.11",
         "symfony/maker-bundle": "^1.64",
         "symplify/config-transformer": "^12.4.3",
@@ -86,7 +86,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.2.*"
+            "require": "7.3.*"
         }
     }
 }
