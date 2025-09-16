@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
 use Symfony\Component\VarExporter\LazyObjectInterface;
 use Symfony\Component\VarExporter\LazyProxyTrait;
 
-#[AsDecorator('doctrine.orm.default_entity_manager')]
+#[Lazy, AsDecorator('doctrine.orm.default_entity_manager')]
 class DecoratedEntityManager extends EntityManagerDecorator implements LazyObjectInterface
 {
     use LazyProxyTrait;
